@@ -28,9 +28,9 @@ public class FlightBookingController {
     // create conFlightInfo JAvaFX observable list
     private ObservableList<ConcreteFlight> conFlightInfo = FXCollections.observableArrayList();
 
+
     @FXML
-    private ListView<ConcreteFlight> conFlightList;
-    ;
+    private ComboBox<ConcreteFlight> conFlightCombo;
 
     @FXML
     private Button bookSelectedConFlightButton;
@@ -51,6 +51,9 @@ public class FlightBookingController {
     private TextField departureInput;
 
     @FXML
+    private TextField nTicketsInput;
+
+    @FXML
     private Label searchResultAnswer;
 
     @FXML
@@ -64,6 +67,9 @@ public class FlightBookingController {
 
     private FlightBooker businessLogic;
     private ConcreteFlight selectedConFlight;
+
+    public FlightBookingController() {
+    }
 
     /**
      * setupInputComponents method
@@ -82,7 +88,7 @@ public class FlightBookingController {
         final int JULY = 6;
         monthCombo.getSelectionModel().select(JULY);
 
-        conFlightList.setItems(conFlightInfo);
+        conFlightCombo.setItems(conFlightInfo);
         bookSelectedConFlightButton.setDisable(true);
 
         /**
@@ -91,7 +97,7 @@ public class FlightBookingController {
          * enabled and displays an invitation to book it
          */
 
-        conFlightList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        conFlightCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedConFlight = newValue;
                 bookSelectedConFlightButton.setDisable(false);
@@ -144,6 +150,8 @@ public class FlightBookingController {
 
     @FXML
     void selectConFlight(ActionEvent event) {
+        //Let's change some of of this code so that the nTickets parameter is taken into account.
+        /**
         int remaining = 0;
         if (firstRB.isSelected()) {
             remaining = businessLogic.bookSeat(selectedConFlight, "First");
@@ -152,9 +160,25 @@ public class FlightBookingController {
         } else if (economyRB.isSelected()) {
             remaining = businessLogic.bookSeat(selectedConFlight, "Economy");
         }
-        if (remaining < 0)
+         */
+
+        int remaining = 0;
+        int nTickets = Integer.parseInt(nTicketsInput.getText());
+        for (int i=1; i <= nTickets; i++){
+            if (firstRB.isSelected()) {
+                remaining = businessLogic.bookSeat(selectedConFlight, "First");
+            } else if (businessRB.isSelected()) {
+                remaining = businessLogic.bookSeat(selectedConFlight, "Business");
+            } else if (economyRB.isSelected()) {
+                remaining = businessLogic.bookSeat(selectedConFlight, "Economy");
+            }
+        }
+
+        if (remaining < 0) {
             bookSelectedConFlightButton.setText("Error: This flight had no "
                     + "ticket for the requested fare!");
+            conFlightInfo.clear();
+        }
         else
             bookSelectedConFlightButton.
                     setText("Your ticket has been booked. Remaining tickets = " +

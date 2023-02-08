@@ -75,6 +75,7 @@ public class AeroplofFlightBooker implements FlightBooker {
 	 * @param intendedDate             introduced/selected by user
 	 * @return                         List of concrete flights
 	 */
+
 	public List<ConcreteFlight> getMatchingConFlights(String intendedDepartureCity,
 			String intendedArrivalCity, Date intendedDate) {
 
@@ -87,7 +88,6 @@ public class AeroplofFlightBooker implements FlightBooker {
 		}
 
 		return matchingConFlights;
-
 	}
 
 	/**

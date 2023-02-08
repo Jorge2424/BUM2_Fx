@@ -129,5 +129,4 @@ public class ConcreteFlight {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE', 'd' 'MMM' 'yyyy");
 		return flight.toString() + " | " + dateFormat.format(date) + " [" + departureTime + "]";
 		}
-
 }
