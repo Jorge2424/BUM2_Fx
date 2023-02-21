@@ -26,7 +26,8 @@ public interface FlightBooker {
 	public List<ConcreteFlight> getMatchingConFlights(String departureCity,
 													  String arrivalCity, Date date);
 
-
+	public List<ConcreteFlight> getMatchingConFlightsFare(String departureCity,
+													  String arrivalCity, Date date, String fare);
 	/**
 	 * Ensures that any reservation made by an user is recorded in the conFlight
 	 *

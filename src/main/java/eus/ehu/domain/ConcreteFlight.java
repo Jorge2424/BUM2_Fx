@@ -129,4 +129,22 @@ public class ConcreteFlight {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE', 'd' 'MMM' 'yyyy");
 		return flight.toString() + " | " + dateFormat.format(date) + " [" + departureTime + "]";
 		}
+
+
+	//Let's add a new method that returns the number of seats available in a specific class
+	public int getNumSeatsAvailable(String classType) {
+		if (classType.equals("First class")){
+			return this.freeFirstSeats;
+		}
+		else if (classType.equals("Business class")){
+			return this.freeBusinessSeats;
+		}
+		else if (classType.equals("Economy class")){
+			return this.freeEconomySeats;
+		}
+		else {
+			throw new IllegalArgumentException("Clase no válida");
+		}
+	}
+
 }

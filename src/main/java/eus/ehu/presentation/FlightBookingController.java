@@ -68,6 +68,9 @@ public class FlightBookingController {
     private FlightBooker businessLogic;
     private ConcreteFlight selectedConFlight;
 
+    //Creamos un nuevo atributo para agrupar los botones
+    private ToggleGroup toggleGroup;
+
     public FlightBookingController() {
     }
 
@@ -123,11 +126,21 @@ public class FlightBookingController {
                 Locale.ENGLISH);
         format.setLenient(false);
 
+        toggleGroup = new ToggleGroup();
+        firstRB.setToggleGroup(toggleGroup);
+        businessRB.setToggleGroup(toggleGroup);
+        economyRB.setToggleGroup(toggleGroup);
+
+        RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
+
+        String fare = selectedRadioButton.getText();
+
+
         try {
             Date chosenDate = format.parse(chosenDateString);
             List<ConcreteFlight> foundConFlights = businessLogic.
-                    getMatchingConFlights(departureInput.getText(),
-                            arrivalInput.getText(), chosenDate);
+                    getMatchingConFlightsFare(departureInput.getText(),
+                            arrivalInput.getText(), chosenDate, fare);
             for (ConcreteFlight v : foundConFlights)
                 conFlightInfo.add(v);
             if (foundConFlights.isEmpty())
@@ -140,7 +153,6 @@ public class FlightBookingController {
             searchResultAnswer.setText("The chosen date " + chosenDateString +
                     " is not valid. Please correct it");
         }
-
     }
 
     /**
@@ -199,6 +211,4 @@ public class FlightBookingController {
         setBusinessLogic(new AeroplofFlightBooker());
 
     }
-
-
 }

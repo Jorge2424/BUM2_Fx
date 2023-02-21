@@ -90,6 +90,27 @@ public class AeroplofFlightBooker implements FlightBooker {
 		return matchingConFlights;
 	}
 
+	public List<ConcreteFlight> getMatchingConFlightsFare(String intendedDepartureCity,
+													  String intendedArrivalCity, Date intendedDate, String fare) {
+
+		List<ConcreteFlight> matchingConFlights = new ArrayList<ConcreteFlight>();
+		List<ConcreteFlight> matchingConFlightsFare = new ArrayList<ConcreteFlight>();
+
+		for (Flight fli : availableFlights) {
+			if (fli.getArrivalCity().equals(intendedArrivalCity) &&
+					fli.getDepartureCity().equals(intendedDepartureCity))
+				matchingConFlights.addAll(fli.getConcreteFlights(intendedDate));
+		}
+
+		for (ConcreteFlight fli: matchingConFlights) {
+			if (fli.getNumSeatsAvailable(fare) > 0){
+				matchingConFlightsFare.add(fli);
+			}
+		}
+
+		return matchingConFlightsFare;
+	}
+
 	/**
 	 * @param conFli		The concrete flight in which a free seat is to be booked
 	 * @param fare			The fare of the ticket
